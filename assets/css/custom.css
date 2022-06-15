@@ -1,0 +1,12 @@
+.page-header {
+  background-color: #0b0022;
+  min-height: inherit;
+}
+
+.section {
+  background-color: #0b0022;
+}
+
+.card[data-background='image']:after {
+  background-color: rgba(0, 0, 0, 0);
+}

@@ -169,7 +169,7 @@ async function checkAmountEligible() {
 
 document.getElementById('btn-connect').onclick = login
 document.getElementById('btn-logout').onclick = logOut
-document.getElementById('btn-redeem-1').onclick = mintGobs
+document.getElementById('btn-redeem-max').onclick = mintGobs
 
 const wallet_previously_connected = localStorage.getItem('walletConnected')
 console.log(wallet_previously_connected)
@@ -206,3 +206,7 @@ if (wallet_previously_connected === 'true') {
     }
   })
 }
+// } else {
+//   document.getElementById('mints-remaining').innerHTML =
+//     'Wallet not connected. The VGGs require you to connect.'
+// }
