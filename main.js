@@ -173,7 +173,7 @@ document.getElementById('btn-redeem-1').onclick = mintGobs
 
 const wallet_previously_connected = localStorage.getItem('walletConnected')
 console.log(wallet_previously_connected)
-if (wallet_previously_connected === true) {
+if (wallet_previously_connected === 'true') {
   Moralis.enableWeb3().then(() => {
     if (Moralis.User.current()) {
       document.getElementById('wallet-addy').innerText =
