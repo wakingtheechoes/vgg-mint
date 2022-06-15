@@ -40,6 +40,7 @@ async function login() {
   let user = Moralis.User.current()
   if (user) {
     await Moralis.User.logOut()
+    localStorage.removeItem('walletConnected')
   }
   user = Moralis.User.current()
   if (!user) {
@@ -66,7 +67,7 @@ async function login() {
 async function logOut() {
   await Moralis.User.logOut()
 
-  localStorage.setItem('walletConnected', false)
+  localStorage.removeItem('walletConnected')
   document.getElementById('btn-connect').style.display = 'block'
   document.getElementById('btn-logout').style.display = 'none'
 
@@ -171,7 +172,8 @@ document.getElementById('btn-logout').onclick = logOut
 document.getElementById('btn-redeem-1').onclick = mintGobs
 
 const wallet_previously_connected = localStorage.getItem('walletConnected')
-if (wallet_previously_connected) {
+console.log(wallet_previously_connected)
+if (wallet_previously_connected === true) {
   Moralis.enableWeb3().then(() => {
     if (Moralis.User.current()) {
       document.getElementById('wallet-addy').innerText =
