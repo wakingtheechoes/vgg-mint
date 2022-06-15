@@ -27,18 +27,7 @@ async function balanceCheck() {
   console.log(tokenValue)
 }
 
-/* Amount to donate */
-
-async function anAmount() {
-  let input = document.getElementById('donation').value
-  console.log(input)
-  submitAmount = Moralis.Units.ETH(input)
-  console.log(submitAmount)
-  console.log('donation amount set')
-}
-
 /* amount to mint */
-
 async function mintAmount() {
   let input = document.getElementById('mintQty').value
   mintCount = input
@@ -48,7 +37,6 @@ async function mintAmount() {
 
 /* Authentication code */
 async function login() {
-  console.log('login function')
   let user = Moralis.User.current()
   if (user) {
     await Moralis.User.logOut()
@@ -59,6 +47,8 @@ async function login() {
       user = await Moralis.authenticate({
         signingMessage: 'Authenticate',
       })
+
+      localStorage.setItem('walletConnected', true)
       // await Moralis.enableWeb3()
       console.log(user)
       console.log(user.get('ethAddress'))
@@ -75,6 +65,8 @@ async function login() {
 
 async function logOut() {
   await Moralis.User.logOut()
+
+  localStorage.setItem('walletConnected', false)
   document.getElementById('btn-connect').style.display = 'block'
   document.getElementById('btn-logout').style.display = 'none'
 
@@ -84,7 +76,7 @@ async function logOut() {
 
 /* submit donation and redeem */
 
-async function myDonation() {
+async function mintGobs() {
   let options = {
     contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
     functionName: 'publicSaleMint',
@@ -176,40 +168,39 @@ async function checkAmountEligible() {
 
 document.getElementById('btn-connect').onclick = login
 document.getElementById('btn-logout').onclick = logOut
-document.getElementById('btn-redeem-1').onclick = myDonation
-// document.getElementById('btn-balance').onclick = balanceCheck
+document.getElementById('btn-redeem-1').onclick = mintGobs
 
-Moralis.enableWeb3().then(() => {
-  if (Moralis.User.current()) {
-    document.getElementById('wallet-addy').innerText =
-      Moralis.User.current().get('ethAddress')
-    document.getElementById('btn-connect').style.display = 'none'
-    document.getElementById('btn-logout').style.display = 'block'
+const wallet_previously_connected = localStorage.getItem('walletConnected')
+if (wallet_previously_connected) {
+  Moralis.enableWeb3().then(() => {
+    if (Moralis.User.current()) {
+      document.getElementById('wallet-addy').innerText =
+        Moralis.User.current().get('ethAddress')
+      document.getElementById('btn-connect').style.display = 'none'
+      document.getElementById('btn-logout').style.display = 'block'
 
-    let publicMintOnOptions = {
-      contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
-      functionName: 'publicFlag',
-      abi: [
-        {
-          inputs: [],
-          name: 'publicFlag',
-          outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-          stateMutability: 'view',
-          type: 'function',
-        },
-      ],
-    }
-
-    Moralis.executeFunction(publicMintOnOptions).then((value) => {
-      if (value) {
-        checkAmountEligible()
-      } else {
-        document.getElementById('public-sale-off').style.display = 'block'
-        document.getElementById('public-sale-on').style.display = 'none'
+      let publicMintOnOptions = {
+        contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+        functionName: 'publicFlag',
+        abi: [
+          {
+            inputs: [],
+            name: 'publicFlag',
+            outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+            stateMutability: 'view',
+            type: 'function',
+          },
+        ],
       }
-    })
-  } else {
-    document.getElementById('mints-remaining').innerHTML =
-      'Wallet not connected. The VGGs require you to connect.'
-  }
-})
+
+      Moralis.executeFunction(publicMintOnOptions).then((value) => {
+        if (value) {
+          checkAmountEligible()
+        } else {
+          document.getElementById('public-sale-off').style.display = 'block'
+          document.getElementById('public-sale-on').style.display = 'none'
+        }
+      })
+    }
+  })
+}
