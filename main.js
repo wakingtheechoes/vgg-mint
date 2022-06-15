@@ -201,7 +201,7 @@ Moralis.enableWeb3().then(() => {
     }
 
     Moralis.executeFunction(publicMintOnOptions).then((value) => {
-      if (!value) {
+      if (value) {
         checkAmountEligible()
       } else {
         document.getElementById('public-sale-off').style.display = 'block'
