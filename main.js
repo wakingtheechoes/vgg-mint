@@ -56,7 +56,28 @@ async function login() {
         Moralis.User.current().get('ethAddress')
       document.getElementById('btn-connect').style.display = 'none'
       document.getElementById('btn-logout').style.display = 'block'
-      checkAmountEligible()
+      let publicMintOnOptions = {
+        contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+        functionName: 'publicFlag',
+        abi: [
+          {
+            inputs: [],
+            name: 'publicFlag',
+            outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+            stateMutability: 'view',
+            type: 'function',
+          },
+        ],
+      }
+
+      Moralis.executeFunction(publicMintOnOptions).then((value) => {
+        if (value) {
+          checkAmountEligible()
+        } else {
+          document.getElementById('public-sale-off').style.display = 'block'
+          document.getElementById('public-sale-on').style.display = 'none'
+        }
+      })
     } catch (error) {
       console.log(error)
     }
