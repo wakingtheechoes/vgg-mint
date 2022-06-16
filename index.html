@@ -83,21 +83,24 @@ Coded by www.creative-tim.com
         <div class="page-header">
           <div class="mt-5">
             <div class="container upper-container text-center">
-              <div class="video-text">
+              <div class=" mx-auto" style="max-width:700px;">
                 <h1>The Goblins are in charge. At least they seem happy to be here.</h1>
-                <div class="mb-0 mt-0">
-                  <img src="images/paintbrush.png" loading="lazy" width="75%" alt=""/>
-                </div>
-                <h3 class="title-no-upper-margin mt-0">4567 goblins that came from the VaughnGogh laboratory. Do we dare see what the lab created?</h3>
+                <br/>
+                <h3 class="">4567 goblins that came from the VaughnGogh laboratory. Do we dare see what the lab created?</h3>
                 
+                <div class="mt-4 mb-2">
+                  <img src="images/paintbrush.png" loading="lazy" width="60%" alt=""/>
+                </div>
               </div>
               <br />
-              <h4 class="title-no-upper-margin mt-0" id="mints-remaining"></h4>
-              <div id="mint-btn-wrapper" hidden class="mt-3">
-              <button type="button" class="btn btn-lg btn-neutral" id="btn-redeem-max">
-                </i> Max Mint  (<span id="qty-to-mint"></span>)
-              </button>
-              </div>
+              <h4 class="title-no-upper-margin mt-0" id="mints-remaining">Wallet not connected. The VGGs require you to connect.</h4>
+              <div id="mint-btn-wrapper" hidden class="mt-3 ml-3 mr-3">
+                <div id="slider-step" class="slider mx-auto" style="max-width: 800px;text-align:center"></div>
+                <button type="button" class="btn btn-lg btn-neutral" id="btn-redeem-max">
+                Mint <span id="qty-to-mint"></span> Gobs
+                </button>
+              <p class="text-size-medium text-color-grey" id="max-per-tx"></p>
+            </div>
             </div>
           </div>
         </div>
@@ -108,31 +111,7 @@ Coded by www.creative-tim.com
               <div class="card" data-background="image" style="background-image: url('./images/5.png')">
                 <div class="card-body"></div>
               </div>
-              <div class="card">
-                <div class="card-body">
-                  <a href="https://twitter.com/GobsGogh/status/1536755583788933120?s=20&t=20hzEvgrmlvGPb4qWquWSw" target="_blank">
-                    <h6 class="author pull-left">@GobsGogh</h6>
-                    <span class="category-social text-info pull-right">
-                      <i class="fa fa-twitter"></i>
-                    </span>
-                    <div class="clearfix"></div>
-                    
-                    <p class="card-description">
-                      <strong>
-                      "Today, we will be as useless as the G in lasagna..."
-                    </strong>
-                    </p>
-                  </a>
-                </div>
-              </div>
-              <div class="card" data-background="image" style="background-image: url('./images/2.png')">
-                <div class="card-body"></div>
-              </div>
-              <div class="card" data-background="image" style="background-image: url('./images/3.png')">
-                <div class="card-body"></div>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
+
               <div class="card">
                 <div class="card-body">
                     <h5 class="author pull-left bold">Reasons to Mint</h5>
@@ -152,6 +131,28 @@ Coded by www.creative-tim.com
                     </ul>
                   </div>
                 </div>
+              </div>
+              <div class="card" data-background="image" style="background-image: url('./images/2.png')">
+                <div class="card-body"></div>
+              </div>
+              <div class="card" data-background="image" style="background-image: url('./images/3.png')">
+                <div class="card-body"></div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <a href="https://opensea.io/collection/vaughngogh-gobs" target="blank">
+              <div class="card" data-color="white" data-background="color">
+                <div class="card-body text-center">
+                  <h5 class="card-title">
+                    Gobs Minted to Date
+                  </h5>
+                  <p class="card-description">
+                    So far, <span id="gobs-minted" style="font-weight:bold">???</span> VaughnGoghGobs have been released from the lab. Check them out on Opensea
+                  </p>
+                  <div class="card-footer text-center">
+                  </div>
+                </div>
+              </a>
               </div>
               <div class="card" data-background="image" style="background-image: url('./images/12.png')">
                 <div class="card-body"></div>
@@ -200,8 +201,25 @@ Coded by www.creative-tim.com
                   </a>
                 </div>
               </div>
-              <div class="card" data-background="image" style="background-image: url('./images/8.png')">
+              <div class="card" data-background="image" style="background-image: url('./images/11.png')">
                 <div class="card-body"></div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <a href="https://twitter.com/GobsGogh/status/1536755583788933120?s=20&t=20hzEvgrmlvGPb4qWquWSw" target="_blank">
+                    <h6 class="author pull-left">@GobsGogh</h6>
+                    <span class="category-social text-info pull-right">
+                      <i class="fa fa-twitter"></i>
+                    </span>
+                    <div class="clearfix"></div>
+                    
+                    <p class="card-description">
+                      <strong>
+                      "Today, we will be as useless as the G in lasagna..."
+                    </strong>
+                    </p>
+                  </a>
+                </div>
               </div>
               <div class="card" data-background="image" style="background-image: url('./images/9.png')">
                 <div class="card-body"></div>

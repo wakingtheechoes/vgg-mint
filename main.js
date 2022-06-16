@@ -6,6 +6,12 @@ Moralis.start({ serverUrl, appId })
 var submitAmount = 0
 var mintCount = 0
 
+function sliderChanged(values) {
+  console.log(values[0])
+  mintQty = parseInt(values[0])
+  document.getElementById('qty-to-mint').innerText = mintQty.toString()
+}
+
 /* Check that we can read from the contract */
 async function balanceCheck() {
   let options = {
@@ -25,14 +31,6 @@ async function balanceCheck() {
   const balance = await Moralis.executeFunction(options)
   tokenValue = Moralis.Units.FromWei(balance)
   console.log(tokenValue)
-}
-
-/* amount to mint */
-async function mintAmount() {
-  let input = document.getElementById('mintQty').value
-  mintCount = input
-  console.log(mintCount)
-  console.log('mint quantity set')
 }
 
 /* Authentication code */
@@ -94,13 +92,29 @@ async function mintGobs() {
       },
     ],
     params: {
-      quantity: mintCount,
+      quantity: mintQty,
     },
   }
   await Moralis.executeFunction(options)
 }
 
 async function checkAmountEligible() {
+  let totalSupplyOptions = {
+    contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+    functionName: 'totalSupply',
+    abi: [
+      {
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        stateMutability: 'view',
+        type: 'function',
+      },
+    ],
+  }
+  let gobs_minted = await Moralis.executeFunction(totalSupplyOptions)
+  document.getElementById('gobs-minted').innerText = gobs_minted.toString()
+
   let options = {
     contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
     functionName: 'maxPerAddress',
@@ -133,38 +147,64 @@ async function checkAmountEligible() {
     },
   }
   let balance_of_user = await Moralis.executeFunction(options)
+  let mints_left = Math.max(number_per_wallet - balance_of_user, 0)
+  if (mints_left > 0) {
+    document.getElementById('mints-remaining').innerHTML =
+      'You have ' +
+      (number_per_wallet - balance_of_user).toString() +
+      ' mints remaining. <br/><strong>DRAG THE VAUGHNGOGH TO THE AMOUNT YOU WANT TO MINT</strong>'
 
-  document.getElementById('mints-remaining').innerText =
-    'You have ' +
-    (number_per_wallet - balance_of_user).toString() +
-    ' mints remaining'
+    options = {
+      contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+      functionName: 'maxPerTransaction',
+      abi: [
+        {
+          inputs: [],
+          name: 'maxPerTransaction',
+          outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+          stateMutability: 'view',
+          type: 'function',
+        },
+      ],
+    }
+    let max_per_tx = await Moralis.executeFunction(options)
+    mintCount =
+      max_per_tx < number_per_wallet - balance_of_user
+        ? max_per_tx
+        : number_per_wallet - balance_of_user
+    document.getElementById('qty-to-mint').innerText = 1
 
-  options = {
-    contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
-    functionName: 'maxPerTransaction',
-    abi: [
-      {
-        inputs: [],
-        name: 'maxPerTransaction',
-        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-        stateMutability: 'view',
-        type: 'function',
+    if (mintCount < number_per_wallet - balance_of_user) {
+      document.getElementById('max-per-tx').innerText =
+        'Max Per Transaction: ' + max_per_tx.toString()
+    }
+
+    document.getElementById('mint-btn-wrapper').removeAttribute('hidden')
+
+    var stepSlider = document.getElementById('slider-step')
+
+    noUiSlider.create(stepSlider, {
+      start: [1],
+      step: 1,
+      range: {
+        min: [1],
+        max: [parseInt(mintCount)],
       },
-    ],
-  }
-  let max_per_tx = await Moralis.executeFunction(options)
-  mintCount =
-    max_per_tx < number_per_wallet - balance_of_user
-      ? max_per_tx
-      : number_per_wallet - balance_of_user
-  document.getElementById('qty-to-mint').innerText = mintCount.toString()
+      pips: {
+        mode: 'steps',
+        density: 20,
+      },
+    })
 
-  if (mintCount < number_per_wallet - balance_of_user) {
-    document.getElementById('max-per-tx').innerText =
-      'Max Per Transaction: ' + max_per_tx.toString()
+    divElem = document.createElement('div')
+    divElem.innerHTML =
+      "<img src='images/vaughngogh_downsized.png' class='slider-img'/>"
+    document.getElementsByClassName('noUi-handle')[0].appendChild(divElem)
+    stepSlider.noUiSlider.on('change', sliderChanged)
+  } else {
+    document.getElementById('mints-remaining').innerHTML =
+      'You have zero mints remaining :('
   }
-
-  document.getElementById('mint-btn-wrapper').removeAttribute('hidden')
 }
 
 document.getElementById('btn-connect').onclick = login
@@ -172,7 +212,6 @@ document.getElementById('btn-logout').onclick = logOut
 document.getElementById('btn-redeem-max').onclick = mintGobs
 
 const wallet_previously_connected = localStorage.getItem('walletConnected')
-console.log(wallet_previously_connected)
 if (wallet_previously_connected === 'true') {
   Moralis.enableWeb3().then(() => {
     if (Moralis.User.current()) {
