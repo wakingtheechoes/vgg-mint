@@ -75,8 +75,9 @@ async function login() {
         if (value) {
           checkAmountEligible()
         } else {
-          document.getElementById('public-sale-off').style.display = 'block'
-          document.getElementById('public-sale-on').style.display = 'none'
+          // document.getElementById('public-sale-off').style.display = 'block'
+          // document.getElementById('public-sale-on').style.display = 'none'
+          console.log('sold out')
         }
       })
     } catch (error) {
@@ -269,8 +270,9 @@ if (wallet_previously_connected === 'true') {
         if (value) {
           checkAmountEligible()
         } else {
-          document.getElementById('public-sale-off').style.display = 'block'
-          document.getElementById('public-sale-on').style.display = 'none'
+          // document.getElementById('public-sale-off').style.display = 'block'
+          // document.getElementById('public-sale-on').style.display = 'none'
+          console.log('sold out')
         }
       })
     }
