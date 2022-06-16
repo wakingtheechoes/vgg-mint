@@ -125,6 +125,7 @@ async function mintGobs() {
     mintQty.toString() +
     ' VGGs!<br/><br/>Your gob-freeing tx is ' +
     tx.hash
+  document.getElementById('tweet-button').style.display = 'block'
 }
 
 async function checkAmountEligible() {
