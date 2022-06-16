@@ -1,6 +1,7 @@
 /* Moralis init code */
-const serverUrl = 'https://yzboao19fonw.usemoralis.com:2053/server'
-const appId = 'sxt9lKUXnTPFSQjb6QU74X8Ja8lrsoxhnw58h096'
+const serverUrl = 'https://md1jddp276s8.usemoralis.com:2053/server'
+const appId = 'j2hj7Peclt8rq4sU7BNHCrC87IdWRk60GqNqeo9B'
+const contractAddy = '0xA0bfD2B2C006c918e7a796d2b1De1F293765478B'
 Moralis.start({ serverUrl, appId })
 
 var submitAmount = 0
@@ -16,7 +17,7 @@ function sliderChanged(values) {
 /* Check that we can read from the contract */
 async function balanceCheck() {
   let options = {
-    contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+    contractAddress: contractAddy,
     functionName: 'contractBalance',
     abi: [
       {
@@ -57,7 +58,7 @@ async function login() {
       document.getElementById('btn-connect').style.display = 'none'
       document.getElementById('btn-logout').style.display = 'block'
       let publicMintOnOptions = {
-        contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+        contractAddress: contractAddy,
         functionName: 'publicFlag',
         abi: [
           {
@@ -99,7 +100,7 @@ async function logOut() {
 
 async function mintGobs() {
   let options = {
-    contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+    contractAddress: contractAddy,
     functionName: 'publicSaleMint',
     msgValue: 0,
     abi: [
@@ -128,7 +129,7 @@ async function mintGobs() {
 
 async function checkAmountEligible() {
   let totalSupplyOptions = {
-    contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+    contractAddress: contractAddy,
     functionName: 'totalSupply',
     abi: [
       {
@@ -144,7 +145,7 @@ async function checkAmountEligible() {
   document.getElementById('gobs-minted').innerText = gobs_minted.toString()
 
   let options = {
-    contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+    contractAddress: contractAddy,
     functionName: 'maxPerAddress',
     abi: [
       {
@@ -159,7 +160,7 @@ async function checkAmountEligible() {
   let number_per_wallet = await Moralis.executeFunction(options)
 
   options = {
-    contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+    contractAddress: contractAddy,
     functionName: 'balanceOf',
     abi: [
       {
@@ -183,7 +184,7 @@ async function checkAmountEligible() {
       ' goblin mints remaining. <br/><strong>DRAG THE VAUGHNGOGH TO THE AMOUNT YOU WANT TO MINT</strong>'
 
     options = {
-      contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+      contractAddress: contractAddy,
       functionName: 'maxPerTransaction',
       abi: [
         {
@@ -249,7 +250,7 @@ if (wallet_previously_connected === 'true') {
       document.getElementById('btn-logout').style.display = 'block'
 
       let publicMintOnOptions = {
-        contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
+        contractAddress: contractAddy,
         functionName: 'publicFlag',
         abi: [
           {
