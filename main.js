@@ -5,6 +5,7 @@ Moralis.start({ serverUrl, appId })
 
 var submitAmount = 0
 var mintCount = 0
+var mintQty = 1
 
 function sliderChanged(values) {
   console.log(values[0])
@@ -95,7 +96,13 @@ async function mintGobs() {
       quantity: mintQty,
     },
   }
-  await Moralis.executeFunction(options)
+  tx = await Moralis.executeFunction(options)
+  document.getElementById('btn-redeem-max').setAttribute('disabled', 'disabled')
+  document.getElementById('minting-tx').innerHTML =
+    '<strong>Woot!</strong> You just minted ' +
+    mintQty.toString() +
+    ' VGGs!<br/><br/>Your gob-freeing tx is ' +
+    tx.hash
 }
 
 async function checkAmountEligible() {
@@ -152,7 +159,7 @@ async function checkAmountEligible() {
     document.getElementById('mints-remaining').innerHTML =
       'You have ' +
       (number_per_wallet - balance_of_user).toString() +
-      ' mints remaining. <br/><strong>DRAG THE VAUGHNGOGH TO THE AMOUNT YOU WANT TO MINT</strong>'
+      ' goblin mints remaining. <br/><strong>DRAG THE VAUGHNGOGH TO THE AMOUNT YOU WANT TO MINT</strong>'
 
     options = {
       contractAddress: '0x388feb700A52F87cD88e8ee5429827B795620c66',
