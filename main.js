@@ -237,6 +237,7 @@ async function checkAmountEligible() {
 }
 
 document.getElementById('btn-connect').onclick = login
+document.getElementById('link-connect').onclick = login
 document.getElementById('btn-logout').onclick = logOut
 document.getElementById('btn-redeem-max').onclick = mintGobs
 
